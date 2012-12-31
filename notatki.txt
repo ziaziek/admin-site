@@ -1,0 +1,25 @@
+
+Korzystanie z baz danych.
+
+Należy ustawic polaczenie w pliku application.ini
+Nalezy skonstruowac baze danych.
+Nastepnie stworzyc modele, uzywajac polecenia zf create db-table Naza_tabeli nazwa_tabeli_w_bazie_danych
+
+i mozna korzystac z baz danych i tabel bezproblemowo.
+
+
+Odczyt z tabeli: 
+ $tabela = new Application_Model_Tabela();
+$t = $tabela->fetchAll();
+$t1 = $tabela->fetchAll('id=1');
+
+Odwolywanie sie do pol w rezulacie poprzez zwykle przywolanie jak pol w obiekcie:
+$t1->id; $t1->username, itd.
+
+Usuwanie z tabeli:
+$tabela->delete($sql);
+
+Wstawianie i aktualizacja:
+$tabela->insert(array('field1'=>value1, ..., 'fieldn'=>valuen);
+$tabela->update($array_of_data, $array_of_conditions);
+
