@@ -13,6 +13,35 @@ Odczyt z tabeli:
 $t = $tabela->fetchAll();
 $t1 = $tabela->fetchAll('id=1');
 
+Poleca sie korzystanie z obiektu select:
+$u = $users->fetchAll($users->select()
+                        ->where('id=1')
+                        ->group('id')
+                        ->join(....)
+                        ->order('id')
+                        ->limit($count, $offset));
+Odczyt pojedynczego wiersza poprzez:
+$tabela->fetchRow($tabela->select()
+                            ->order('id'));
+
+Odczyt metadanych tabeli:
+$info = $table->info();
+ 
+echo "The table name is " . $info['name'] . "\n";
+Indeksy tabeli metadanych:
+name, cols, primary, metadata, rowClass, rowsetClass,
+referenceMap, dependentTables, schema.
+
+Odczyt sekwencyjny z resultatu zapytania z użyciem metadanych:
+$umeta=$users->info();
+            $ret='';
+            foreach($u as $uu){
+                foreach($umeta['cols'] as $col){
+                    $ret.=$col.': '.$uu->$col.' ';
+                }
+                $ret.='<br/>';
+            }
+
 Odwolywanie sie do pol w rezulacie poprzez zwykle przywolanie jak pol w obiekcie:
 $t1->id; $t1->username, itd.
 

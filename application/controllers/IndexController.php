@@ -13,8 +13,17 @@ class IndexController extends Zend_Controller_Action
             $users->insert(array('id'=>'1', 'username'=>'nikt', 'password'=>'password'));
         } else {
             
-            $u = $users->fetchAll()->current();
-            $this->view->u=$u->id;
+            $u = $users->fetchAll($users->select());
+            $umeta=$users->info();
+            $ret='';
+            foreach($u as $uu){
+                foreach($umeta['cols'] as $col){
+                    $ret.=$col.': '.$uu->$col.' ';
+                }
+                $ret.='<br/>';
+            }
+            
+            $this->view->u=$ret;
         }
     }
 
