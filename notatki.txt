@@ -52,3 +52,142 @@ Wstawianie i aktualizacja:
 $tabela->insert(array('field1'=>value1, ..., 'fieldn'=>valuen);
 $tabela->update($array_of_data, $array_of_conditions);
 
+
+
+Uzywanie formularzy
+Zend_Form() - obiekt formularza
+$z = new Zend_Form();
+$zel = new Zend_Form_Element_Text('foo');
+$z->addElement($zel);
+lub
+$z->addElement('text', 'foo', array('label'=>'Foo:'));
+
+
+    $form->addElement('text', 'username', array(
+        'validators' => array(
+            'alnum',
+            array('regex', false, '/^[a-z]/i')
+        ),
+        'required' => true,
+        'filters'  => array('StringToLower'),
+    ));
+
+Dostep do elementow formularza:
+$z->foo; lub $z->getElement('zoo');
+
+Pobieranie wartosci z pol formularza:
+$val = $z->getValue('foo');
+$vals=$z->getValues();
+
+Ustawienie wartosci pol:
+$z->populate($data); lub $z->setDefaults($data);
+
+Metadane formularzy:
+$z->setName('name');
+$name=$z->getName();
+$z->setAction('/user/login')->setMethod('post')
+
+Ilość elementów formularza:
+$numItems = count($form);
+
+
+Dekoratory formularzy - obiekty, które pomagają renderować formularz do pożądanej postaci, np.:
+
+    $form->setDecorators(array(
+        'FormElements',
+        array('HtmlTag', array('tag' => 'dl')),
+        'Form'
+    ));
+daje w rezultacie:
+    <form action="/form/action" method="post">
+    <dl>
+    ...
+    </dl>
+    </form>
+
+Wyłączanie dekoratorów:
+$form = new Zend_Form(array('disableLoadDefaultDecorators' => true));
+
+Walidacja formularzy:
+    if (!$form->isValid($_POST)) {
+        // failed validation
+    }
+Jeśli formularz nie przejdzie walidacji, można otrzymać kody błędów:
+    $codes = $form->getErrors();
+    $messages = $form->getMessages();
+
+Możliwe jest też uzyskanie kodów dla poszczególnych elementów formularza:
+    $codes = $form->getErrors('username');
+    $messages = $form->getMessages('username');
+
+Elementy formularza Zend_Form_Element_Text:
+    $username = new Zend_Form_Element_Text('username');
+     
+    // Passing a Zend_Validate_* object:
+    $username->addValidator(new Zend_Validate_Alnum());
+     
+    // Passing a validator name:
+    $username->addValidator('alnum');
+    // Pass a pattern
+    $username->addValidator('regex', false, array('/^[a-z]/i'));
+
+    // Make this element required:
+    $username->setRequired(true);
+
+$username->addFilter('StringtoLower');
+
+Standardowe elementy formularza:
+Zend_Form_Element_Button
+Zend_Form_Element_Captcha
+Zend_Form_Element_Checkbox
+Zend_Form_Element_File
+Zend_Form_Element_Hidden
+Zend_Form_Element_Hash
+Zend_Form_Element_Image
+Zend_Form_Element_MultiCheckbox
+Zend_Form_Element_Multiselect
+Zend_Form_Element_Password
+Zend_Form_Element_Radio
+Zend_Form_Element_Reset
+Zend_Form_Element_Select
+Zend_Form_Element_Submit
+Zend_Form_Element_Text
+Zend_Form_Element_Textarea
+
+
+Standardowe dekoratory formularza:
+Zend_Form_Decorator_Callback
+Zend_Form_Decorator_Captcha
+Zend_Form_Decorator_Description
+Zend_Form_Decorator_DtDdWrapper
+Zend_Form_Decorator_Errors
+Zend_Form_Decorator_Fieldset
+Zend_Form_Decorator_File
+Zend_Form_Decorator_Form
+Zend_Form_Decorator_FormElements
+Zend_Form_Decorator_FormErrors
+Zend_Form_Decorator_HtmlTag
+Zend_Form_Decorator_Image
+Zend_Form_Decorator_Label
+Zend_Form_Decorator_PrepareElements
+Zend_Form_Decorator_Tooltip
+Zend_Form_Decorator_ViewHelper
+Zend_Form_Decorator_ViewScript
+
+
+Internacjonalizacja:
+    // use the 'Zend_Translate' key; $translate is a Zend_Translate object:
+    Zend_Registry::set('Zend_Translate', $translate);
+
+    // Tell all form classes to use a specific translate adapter, as well
+    // as use this adapter to translate validation error messages:
+    Zend_Form::setDefaultTranslator($translate);
+    // Tell *this* form instance to use a specific translate adapter; it
+    // will also be used to translate validation error messages for all
+    // elements:
+    $form->setTranslator($translate);
+     
+    // Tell *this* element to use a specific translate adapter; it will
+    // also be used to translate validation error messages for this
+    // particular element:
+    $element->setTranslator($translate);
