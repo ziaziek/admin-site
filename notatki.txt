@@ -52,6 +52,29 @@ Wstawianie i aktualizacja:
 $tabela->insert(array('field1'=>value1, ..., 'fieldn'=>valuen);
 $tabela->update($array_of_data, $array_of_conditions);
 
+Aktualizowanie poprzez rekord:
+    $bugs = new Bugs();
+    $row = $bugs->fetchRow($bugs->select()->where('bug_id = ?', 1));
+     
+    // Change the value of one or more columns
+    $row->bug_status = 'FIXED';
+     
+    // UPDATE the row in the database with new values
+    $row->save();
+
+Wstawianie nowych rekordow:
+
+    $bugs = new Bugs();
+    $newRow = $bugs->createRow();
+     
+    // Set column values as appropriate for your application
+    $newRow->bug_description = '...description...';
+    $newRow->bug_status = 'NEW';
+     
+    // INSERT the new row to the database
+    $newRow->save();
+
+
 
 
 Uzywanie formularzy

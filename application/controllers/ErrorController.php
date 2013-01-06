@@ -53,6 +53,14 @@ class ErrorController extends Zend_Controller_Action
         return $log;
     }
 
+    public function indexAction()
+    {
+        // action body
+        $this->errorAction();
+    }
+
 
 }
+
+
 
