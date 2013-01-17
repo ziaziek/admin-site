@@ -56,7 +56,7 @@ class IndexController extends Zend_Controller_Action
     {
         // action body
         $f = new Classes_TranslatedForm($this->translate);
-        $captcha = new Zend_Captcha_Figlet(array(
+        $captcha = new Zend_Captcha_Image(array(
                 'name' => 'foo_captcha',
                 'wordLen' => 6,
                 'timeout' => 300,

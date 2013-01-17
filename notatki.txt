@@ -214,3 +214,36 @@ Internacjonalizacja:
     // also be used to translate validation error messages for this
     // particular element:
     $element->setTranslator($translate);
+
+
+Logowanie informacji:
+Obiekt Zend_Log, ktoremu przypisujemy Zend_Writer i Zend_Filter
+    $logger = new Zend_Log();
+    $writer = new Zend_Log_Writer_Stream('php://output');
+     
+    $logger->addWriter($writer);
+
+lub poprzez dodanie writera do konstruktora:
+    $writer = new Zend_Log_Writer_Stream('php://output');
+    $logger = new Zend_Log($writer);
+
+Logowanie informacji:
+$logger->log('Informational message', Zend_Log::INFO);
+
+$logger->info('Informational message');
+ 
+$logger->log('Emergency message', Zend_Log::EMERG);
+$logger->emerg('Emergency message');
+
+Priorytety logowania:
+    EMERG   = 0;  // Emergency: system is unusable
+    ALERT   = 1;  // Alert: action must be taken immediately
+    CRIT    = 2;  // Critical: critical conditions
+    ERR     = 3;  // Error: error conditions
+    WARN    = 4;  // Warning: warning conditions
+    NOTICE  = 5;  // Notice: normal but significant condition
+    INFO    = 6;  // Informational: informational messages
+    DEBUG   = 7;  // Debug: debug messages
+
+Logowanie bledow PHP przy uzyciu Zend_Log:
+Należy wywołać registerErrorHandler
